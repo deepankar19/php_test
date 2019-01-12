@@ -18,10 +18,10 @@ class User_model extends CI_Model {
     }
 
     public function fetch_email($data)
-    {
+    {  $where = array('userid'=> $data['userId'],'action'=> $data['action']);
     	$this->db->select('*');
         $this->db->from('emailData');
-        $this->db->where($data);
+        $this->db->where($where);
         $query = $this->db->get();
         return $result = $query->result();
         //$this->load->view('edit_content/edit_content', $result);
@@ -32,4 +32,15 @@ class User_model extends CI_Model {
       $this->db->where('id', $id);
       $this->db->delete('emailData');
     }
+
+    public function send_Mail($data)
+    {
+    	$where = array('userid'=>'5','action'=>'1');
+    	$this->db->select('*');
+        $this->db->from('emailData');
+        $this->db->where($where);
+        $query = $this->db->get();
+        //print_r($data);
+        return $result = $query->result();
+        }
 }

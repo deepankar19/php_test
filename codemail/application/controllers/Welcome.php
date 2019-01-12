@@ -66,7 +66,7 @@ $this->load->model('User_model');
       $this->email->message($data['messagemail']);
       if($this->email->send())
      {
-     	$data1= array('userId' =>5,'sendermail'=>$data['toemail'],'fromMail'=>$data['fromMail'],'subject'=>$data['subjectMail'],'message'=>$data['messagemail']);
+     	$data1= array('userId' =>5,'sendermail'=>$data['toemail'],'fromMail'=>$data['fromMail'],'subject'=>$data['subjectMail'],'message'=>$data['messagemail'],'action'=>'1');
         $this->User_model->form_insert_mail($data1);
         $this->demo();
      
@@ -81,7 +81,7 @@ $this->load->model('User_model');
 
       public function fetchEmail()
       {
-      	$data = array('userId'=>'5');
+      	$data = array('userId'=>'5','action'=>'0');
       	
 
       	$result_html = '';
@@ -113,4 +113,35 @@ $this->load->model('User_model');
       	$delete_email_data['data'] = $this->User_model->delete_data_id($deleteData);
        $this->load->view('demo');
       }
+
+      public function sendbox()
+      {
+      	$this->load->view('sendmail');
+      }
+      public function sendMaiil()
+      {
+      	$data = array('userId'=>'5','action'=>'1');
+      	
+      	$result_html = '';
+        $fetchData = $this->User_model->send_Mail($data);
+
+        
+
+    foreach($fetchData as $result) {
+        $result_html .= '
+    	<tr class="unread">
+          <td class="inbox-small-cells">
+           <input type="checkbox" class="mail-checkbox" id="'.$result->id.'">
+            </td>
+           <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+           <td class="view-message dont-show">'. $result->subject .'</td>
+           <td class="view-message">'. $result->message .'</td>
+           <td class="view-message inbox-small-cells"></td>
+           <td class="view-message text-right">' . $result->time . '</td>
+           <td class="view-message text-right"> <input type="button" value="Delete" onclick="deletemsg('.$result->id.')"> </td>
+            </tr>';  
+      }
+      echo json_encode($result_html);
+
+  }
 }

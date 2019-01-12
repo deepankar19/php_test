@@ -497,7 +497,7 @@
      <script type='text/javascript' language='javascript'>
     $(document).ready(function(){
         $.ajax({
-            url:"<?php echo base_url();?>Welcome/fetchEmail",
+            url:"<?php echo base_url();?>Welcome/sendMaiil",
             type: 'POST',
             dataType: 'JSON',
             success:function (data) {

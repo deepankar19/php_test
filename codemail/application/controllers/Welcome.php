@@ -89,7 +89,7 @@ $this->load->model('User_model');
 
     foreach($fetchData as $result) {
         $result_html .= '
-    	<tr id="'.$result->id.'" class="edit_tr">
+    	<tr class="js_open">
           <td class="inbox-small-cells">
            <input type="checkbox" class="mail-checkbox" id="'.$result->id.'">
             </td>
@@ -98,7 +98,7 @@ $this->load->model('User_model');
            <td class="view-message">'. $result->message .'</td>
            <td class="view-message inbox-small-cells"></td>
            <td class="view-message text-right">' . $result->time . '</td>
-           <td class="view-message text-right"> <input type="button" value="Delete" onclick="deletemsg('.$result->id.')"> </td>
+           <td class="view-message text-right"> <input type="button" value="Delete" onclick="deletemsg('.$result->id.')"> |  <input type="button" value="View" onclick="opentab('.$result->id.')"></td>
             </tr>';                   
 
     }
@@ -129,7 +129,7 @@ $this->load->model('User_model');
 
     foreach($fetchData as $result) {
         $result_html .= '
-    	<tr id="'.$result->id.'" class="edit_tr">
+    	<tr >
           <td class="inbox-small-cells">
            <input type="checkbox" class="mail-checkbox" >
             </td>
@@ -138,7 +138,7 @@ $this->load->model('User_model');
            <td class="view-message">'. $result->message .'</td>
            <td class="view-message inbox-small-cells"></td>
            <td class="view-message text-right">' . $result->time . '</td>
-           <td class="view-message text-right"> <input type="button" value="Delete" onclick="deletemsg('.$result->id.')"> </td>
+           <td class="view-message text-right"> <input type="button" value="Delete" onclick="deletemsg('.$result->id.')"> |  <input type="button" value="View" onclick="opentab('.$result->id.')" </td>
             </tr>';  
       }
       echo json_encode($result_html);
@@ -157,5 +157,21 @@ $this->load->model('User_model');
         $this->User_model->form_insert_mail($data1);
         $this->demo();
      
+  }
+  public function opentabview()
+  {
+  	$opentabdata = $this->uri->segment(3);
+  	$data['data_tab'] = $this->User_model->open_tab_fetch_data($opentabdata);
+  	//print_r($opentab_email_data);
+   $this->load->view('opentabdata', $data);
+
+  }
+
+  public function replyformData()
+  {
+  	$replyData  = $this->input->post();
+  	$replyfD  = $data1= array('userId' =>5,'sendermail'=>$replyData['toemail'],'fromMail'=>$replyData['fromemail'],'subject'=>$replyData['subject'],'message'=>$replyData['message'],'action'=>'1');
+        $this->User_model->form_insert_mail($replyfD);
+        $this->demo();
   }
 }

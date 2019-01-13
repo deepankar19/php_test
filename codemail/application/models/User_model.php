@@ -43,4 +43,25 @@ class User_model extends CI_Model {
         //print_r($data);
         return $result = $query->result();
         }
+        public function open_tab_fetch_data($value='')
+        {
+        $where = array('userid'=>'5','id'=>$value);
+    	$this->db->select('*');
+        $this->db->from('emailData');
+        $this->db->where($where);
+        $query = $this->db->get();
+        //print_r($data);
+        return $result = $query->result();
+        }
+        public function fetch_user_detail($id)
+        {
+
+        $where = array('userid'=>$id);
+    	$this->db->select('*');
+        $this->db->from('emailData');
+        $this->db->where($where);
+        $query = $this->db->get();
+        //print_r($data);
+        return $result = $query->result();
+        }
 }

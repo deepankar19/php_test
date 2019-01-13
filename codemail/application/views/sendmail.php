@@ -517,10 +517,17 @@
         else
           return false;
         } 
-    $('table').on('click', 'tr', function() {
-      var url = "<?php echo base_url();?>";
-      window.location = url+"Welcome/mainbox";
-});
+//     $('table').on('click', 'tr', function() {
+//       var url = "<?php //echo base_url();?>";
+//       window.location = url+"Welcome/mainbox";
+// });
+function opentab(id){
+    var url = "<?php echo base_url();?>";
+   if(id)
+    window.location = url+"Welcome/opentabview/"+id;
+  else
+    return false;
+   }
    
 </script>
 

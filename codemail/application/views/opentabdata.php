@@ -19,7 +19,9 @@
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-    
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
 
     <!-- Custom styles for this template -->
@@ -28,7 +30,7 @@
 
   </head>
 
-  <body id="page-top" >
+  <body id="page-top" onload="getArr();">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -230,20 +232,85 @@
                              </ul>
                          </div>
                           <table class="table table-inbox table-hover">
-                           <tbody id="hodm_results">
-
-                            </tbody>
-                              <!-- <tr class="unread">
-                                  <td class="inbox-small-cells">
-                                      <input type="checkbox" class="mail-checkbox">
-                                  </td>
-                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-                                  <td class="view-message  dont-show">PHPClass</td>
-                                  <td class="view-message ">Added a new class: Login Class Fast Site</td>
-                                  <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                  <td class="view-message  text-right">9:27 AM</td>
+                           <tbody>
+                           	<?php //print_r($data_tab) ?>
+                               <tr class="unread">
+                                  <td><?php echo $data_tab[0]->subject .'>>'?> <?php if ($data_tab[0]->action == '0') { echo "inbox"; }else{ echo "sendbox";}?></td>
                               </tr>
-                              <tr class="unread">
+                              <tr>
+                              	<?php if ($data_tab[0]->action == '0'){?>
+                              	<td><?php echo $data_tab[0]->fromMail; ?><br/><?php echo 'to'.''.$data_tab[0]->sendermail?> </td>
+                              <?php }else{?>
+                              <td><?php echo $data_tab[0]->sendermail;?><br/><?php echo'to'.$data_tab[0]->fromMail?> </td>
+                              <?php }?>
+                              <td><?php echo $data_tab[0]->time?></td>
+                              </tr>
+                              <tr>
+                              	<td>
+                              	<textarea rows="4" cols="50">
+                              		<?php echo $data_tab[0]->message;?>
+                              	</textarea>
+                              	<td>
+                              </tr>
+                              <tr>
+                              	<td> <a href="#myModal1" data-toggle="modal"  title="Reply"    class="btn">
+                              Reply
+                          </a>
+                          <!-- Modal -->
+                          <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal1" class="modal fade" style="display: none;">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                         <h4 class="modal-title"style="float: right">Reply</h4>
+                                          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                         
+                                      </div>
+                                      <div class="modal-body">
+                                          <form method="POST" action="<?php echo base_url();?>Welcome/sendMail" role="form" id="replymailform" class="form-horizontal" name="replymailform">
+                                              <div class="form-group">
+                                                  <label class="col-lg-2 control-label">To</label>
+                                                  <div class="col-lg-10">
+                                                      <input  required type="text" name="toemail" placeholder="" id="inputEmail1" class="form-control" value="<?php echo $data_tab[0]->sendermail; ?>">
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="col-lg-2 control-label">Cc / Bcc</label>
+                                                  <div class="col-lg-10">
+                                                      <input required type="text" name="fromMail" placeholder="" id="cc" class="form-control">
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="col-lg-2 control-label">Subject</label>
+                                                  <div class="col-lg-10">
+                                                      <input required type="text" name="subjectMail" placeholder="" id="inputPassword1" class="form-control">
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="col-lg-2 control-label">Message</label>
+                                                  <div class="col-lg-10">
+                                                      <textarea required rows="10"  cols="30" class="form-control" id="" name="messagemail"></textarea>
+                                                  </div>
+                                              </div>
+
+                                              <div class="form-group">
+                                                  <div class="col-lg-offset-2 col-lg-10">
+                                                     <!--  <span class="btn green fileinput-button">
+                                                        <i class="fa fa-plus fa fa-white"></i>
+                                                        <span>Attachment</span>
+                                                        <input type="file" name="files[]" multiple="">
+                                                      </span> -->
+                                                      <!-- <button class="btn btn-send" id="sendMail" type="submit">Send</button> -->
+                                                       <input type="submit" value="Submit">
+                                                  </div>
+                                              </div>
+                                          </form>
+                                      </div>
+                                  </div><!-- /.modal-content -->
+                              </div><!-- /.modal-dialog -->
+                          </div><!-- /.modal --> <button>Forward</button></td>
+                              </tr>
+                          </tbody>
+                              <!--<tr class="unread">
                                   <td class="inbox-small-cells">
                                       <input type="checkbox" class="mail-checkbox">
                                   </td>
@@ -491,14 +558,11 @@
         </div>
       </div>
     </footer>
-<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
      <script type='text/javascript' language='javascript'>
     $(document).ready(function(){
         $.ajax({
-            url:"<?php echo base_url();?>Welcome/fetchEmail",
+            url:"<?php echo base_url();?>Welcome/sendMaiil",
             type: 'POST',
             dataType: 'JSON',
             success:function (data) {
@@ -507,7 +571,7 @@
             }
         });
 
-        // event.preventDefault();
+        event.preventDefault();
     });
     function deletemsg(id){
      var url = "<?php echo base_url();?>";
@@ -518,14 +582,41 @@
         else
           return false;
         } 
-   function opentab(id){
-    var url = "<?php echo base_url();?>";
-   if(id)
-    window.location = url+"Welcome/opentabview/"+id;
-  else
-    return false;
-   }
+//     $('table').on('click', 'tr', function() {
+//       var url = "<?php// echo base_url();?>";
+//       window.location = url+"Welcome/mainbox";
+// });
    
+   // $(document).ready(function(){
+   // 	var url="<?php base_url();?>Welcome/sendMail";
+   //  $('form#replymailform').submit(function(){
+   //  	var repValue = $(this).serialize();
+   //  	//alert(repValue);
+   //  	$.ajax({
+   //  		url:url,
+   //  		type:"POST",
+   //  		data: repValue,
+   //  		dataType: "json",
+   //  		success: function(result){
+   //           console.log(result);
+   //  		}
+   //  		// error: function(error){
+   //    //       console.log('Error ${error}');
+   //  		// }
+   //  	}); 
+   //   // $('input').each(function(){
+   //   //       var getInputVal = $(this).val();
+   //   //       alert(getInputVal);
+   //   //        // if(isEmpty(getInputVal) =='emptyForm'){
+   //   //        //     alert(isEmpty(getInputVal));
+   //   //        // }else{
+   //   //        //     alert(isEmpty(getInputVal));
+   //   //        // }
+   //   //    });
+   //      event.preventDefault();
+   //  });
+   //  });
+  
 </script>
 
 
@@ -535,7 +626,6 @@
 
     <!-- Plugin JavaScript -->
     <script src="<?php echo base_url(BOOTSTRAP)?>/jquery-easing/jquery.easing.min.js"></script>
-
 
     <!-- Contact form JavaScript -->
     <script src="<?php echo base_url(JS)?>/jqBootstrapValidation.js"></script>

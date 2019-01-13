@@ -19,7 +19,9 @@
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-    
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
 
     <!-- Custom styles for this template -->
@@ -28,7 +30,7 @@
 
   </head>
 
-  <body id="page-top" >
+  <body id="page-top" onload="getArr();">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -230,8 +232,21 @@
                              </ul>
                          </div>
                           <table class="table table-inbox table-hover">
-                           <tbody id="hodm_results">
-
+                           <tbody>
+                            <?php foreach($fetchData as $result) {?>
+    
+    	<tr >
+          <td class="inbox-small-cells">
+           <input type="checkbox" class="mail-checkbox" >
+            </td>
+           <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+           <td class="view-message dont-show"><?php echo $result->subject ?></td>
+           <td class="view-message"><?php echo $result->message ?></td>
+           <td class="view-message inbox-small-cells"></td>
+           <td class="view-message text-right"><?php echo $result->time ?></td>
+           <td class="view-message text-right"> <input type="button" value="Delete" onclick="deletemsg(<?php echo $result->id ?>)"> |  <input type="button" value="View" onclick="opentab(<?php echo $result->id ?>)" </td>
+            </tr> 
+     <?php } ?>
                             </tbody>
                               <!-- <tr class="unread">
                                   <td class="inbox-small-cells">
@@ -491,14 +506,11 @@
         </div>
       </div>
     </footer>
-<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
      <script type='text/javascript' language='javascript'>
     $(document).ready(function(){
         $.ajax({
-            url:"<?php echo base_url();?>Welcome/fetchEmail",
+            url:"<?php echo base_url();?>Userdetails/userdetaildata",
             type: 'POST',
             dataType: 'JSON',
             success:function (data) {
@@ -507,7 +519,7 @@
             }
         });
 
-        // event.preventDefault();
+        event.preventDefault();
     });
     function deletemsg(id){
      var url = "<?php echo base_url();?>";
@@ -518,7 +530,11 @@
         else
           return false;
         } 
-   function opentab(id){
+//     $('table').on('click', 'tr', function() {
+//       var url = "<?php //echo base_url();?>";
+//       window.location = url+"Welcome/mainbox";
+// });
+function opentab(id){
     var url = "<?php echo base_url();?>";
    if(id)
     window.location = url+"Welcome/opentabview/"+id;
@@ -535,7 +551,6 @@
 
     <!-- Plugin JavaScript -->
     <script src="<?php echo base_url(BOOTSTRAP)?>/jquery-easing/jquery.easing.min.js"></script>
-
 
     <!-- Contact form JavaScript -->
     <script src="<?php echo base_url(JS)?>/jqBootstrapValidation.js"></script>

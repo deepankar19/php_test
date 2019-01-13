@@ -1,139 +1,162 @@
-# CodeIgniter Composer Installer
+# codeigniter version and mysql specification
 
-[![Latest Stable Version](https://poser.pugx.org/kenjis/codeigniter-composer-installer/v/stable)](https://packagist.org/packages/kenjis/codeigniter-composer-installer) [![Total Downloads](https://poser.pugx.org/kenjis/codeigniter-composer-installer/downloads)](https://packagist.org/packages/kenjis/codeigniter-composer-installer) [![Latest Unstable Version](https://poser.pugx.org/kenjis/codeigniter-composer-installer/v/unstable)](https://packagist.org/packages/kenjis/codeigniter-composer-installer) [![License](https://poser.pugx.org/kenjis/codeigniter-composer-installer/license)](https://packagist.org/packages/kenjis/codeigniter-composer-installer)
+  codeigniter 3.0
+  Mysql 5.4
+  created in the xampp
 
-This package installs the offical [CodeIgniter](https://github.com/bcit-ci/CodeIgniter) (version `3.1.*`) with secure folder structure via Composer.
+# CodeIgniter Composer used
 
-**Note:** If you want to install CodeIgniter4 (under development), see <https://github.com/kenjis/codeigniter-composer-installer/tree/4.x>.
+$ composer create-project kenjis/codeigniter-composer-installer codeemail
 
-You can update CodeIgniter system folder to latest version with one command.
+## and update
 
-## Folder Structure
+$ composer install 
 
-```
-codeigniter/
-├── application/
-├── composer.json
-├── composer.lock
-├── public/
-│   ├── .htaccess
-│   └── index.php
-└── vendor/
-    └── codeigniter/
-        └── framework/
-            └── system/
-```
+And configture	 `application/config/config.php` 
 
-## Requirements
+//base_url
 
-* PHP 5.3.7 or later
-* `composer` command (See [Composer Installation](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx))
-* Git
+*define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['SERVER_NAME']}".str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
+$config['base_url'] = APP_URL;
 
-## How to Use
 
-### Install CodeIgniter
+*autoload
+$autoload['libraries'] = array('database','email','session');
+$autoload['helper'] = array('url','file');
 
-```
-$ composer create-project kenjis/codeigniter-composer-installer codeigniter
-```
 
-Above command installs `public/.htaccess` to remove `index.php` in your URL. If you don't need it, please remove it.
+*constant
+// call the file from folder for the theme 
+define('CSS','resources/css'); // <?php echo base_url(CSS);?>  css files locations
+define('JS','resources/js'); //  <?php echo base_url(JS);?> access js file
+define('IMAGES','resources/img'); // <?php echo base_url(IMAGES);?> images location
+define('BOOTSTRAP','resources/vendor'); //<?php echo base_url(BOOTSTRAP);?> vendore bootstrap
 
-And it changes `application/config/config.php`:
 
-~~~
-$config['composer_autoload'] = FALSE;
-↓
-$config['composer_autoload'] = realpath(APPPATH . '../vendor/autoload.php');
-~~~
+*DATABASE 
+$db['default'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'codemail',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
 
-~~~
-$config['index_page'] = 'index.php';
-↓
-$config['index_page'] = '';
-~~~
 
-#### Install Translations for System Messages
+*routes
+$route['default_controller'] = 'welcome';
+$route['(:any)'] = 'userdetails/index';
 
-If you want to install translations for system messages:
 
-```
-$ cd /path/to/codeigniter
-$ php bin/install.php translations 3.1.0
-```
+*created controller
+welcome and userdetails
+main controller of the this is welcome.php were all the controlling is done
+Sendmail() --> send mail by use of mail() , configture smtp ,user external no libary used 
+fetchEmail() --> fetching detail according to their userid
+deleteEmail
+inboxmail()  --> fetching details according to their action, if action =0 inbox and action = 1 sendbox
+replyFormdata();
 
-#### Install Third Party Libraries
 
-[Codeigniter Matches CLI](https://github.com/avenirer/codeigniter-matches-cli):
+*model
+user_model
+all basic login
 
-```
-$ php bin/install.php matches-cli master
-```
 
-[CodeIgniter HMVC Modules](https://github.com/jenssegers/codeigniter-hmvc-modules):
+*template 
+boostrap template is used with responsive inbox and sendbox pannel
 
-```
-$ php bin/install.php hmvc-modules master
-```
 
-[Modular Extensions - HMVC](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc):
+~inbox page url:-http://localhost/php_test/codemail/Welcome/demo
+~send box url:- http://localhost/php_test/codemail/Welcome/sendbox
+~view page url:- http://localhost/php_test/codemail/Welcome/opentabview/id
+~ user details directly:- http://localhost/php_test/codemail/userdetails?userId=5
 
-```
-$ php bin/install.php modular-extensions-hmvc codeigniter-3.x
-```
+~mysql details
 
-[Ion Auth](https://github.com/benedmunds/CodeIgniter-Ion-Auth):
+file name:- codemail
+table name:-email data
 
-```
-$ php bin/install.php ion-auth 2
-```
+CREATE DATABASE codemail;
 
-[CodeIgniter3 Filename Checker](https://github.com/kenjis/codeigniter3-filename-checker):
+DROP TABLE IF EXISTS `visitors`;
+CREATE TABLE IF NOT EXISTS tasks (
+    id INT(100) AUTO_INCREMENT,
+    sendername VARCHAR(100) NOT NULL,
+    senderemail VARCHAR(100) NOT NULL,
+    fromMail VARCHAR(100) NOT NULL,
+    subject VARCHAR(100) NOT NULL,
+    message VARCHAR(100) NOT NULL,
+    action  INT(100) NOT NULL,
+    time TIMESTAMP NOT NULL DEFAULT CURRENT_DATE(),
+   PRIMARY KEY (id),
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-```
-$ php bin/install.php filename-checker master
-```
+    public function form_insert_mail($data)
+    {
+      $this->db->insert('emailData',$data);  // this use to add the form data in the database 
+    }
 
-[CodeIgniter Rest Server](https://github.com/chriskacerguis/codeigniter-restserver):
+    public function fetch_email($data)      // this use to fetch the data from the database by get the userid and
+                                               action
+    {  $where = array('userid'=> $data['userId'],'action'=> $data['action']);
+    	$this->db->select('*');
+        $this->db->from('emailData');
+        $this->db->where($where);
+        $query = $this->db->get();
+        return $result = $query->result();
+        //$this->load->view('edit_content/edit_content', $result);
+    }
 
-```
-$ php bin/install.php restserver 2.7.2
-```
-[CodeIgniter Developer Toolbar](https://github.com/JCSama/CodeIgniter-develbar):
+    public function delete_data_id($id)   // for detele of the email
+    {
+      $this->db->where('id', $id);
+      $this->db->delete('emailData');
+    }
 
-```
-$ php bin/install.php codeigniter-develbar master
-```
+    public function send_Mail($data)    //for getting only the send mail
+    {
+    	$where = array('userid'=>'5','action'=>'1');
+    	$this->db->select('*');
+        $this->db->from('emailData');
+        $this->db->where($where);
+        $query = $this->db->get();
+        //print_r($data);
+        return $result = $query->result();
+        }
+        public function open_tab_fetch_data($value='')
+        {
+        $where = array('userid'=>'5','id'=>$value);
+    	$this->db->select('*');
+        $this->db->from('emailData');
+        $this->db->where($where);
+        $query = $this->db->get();
+        //print_r($data);
+        return $result = $query->result();
+        }
+        public function fetch_user_detail($id)  // for getting only user details by its id 
+        {
 
-### Run PHP built-in server (PHP 5.4 or later)
-
-```
-$ cd /path/to/codeigniter
-$ bin/server.sh
-```
-
-### Update CodeIgniter
-
-```
-$ cd /path/to/codeigniter
-$ composer update
-```
-
-You must update files manually if files in `application` folder or `index.php` change. Check [CodeIgniter User Guide](http://www.codeigniter.com/user_guide/installation/upgrading.html).
-
-## Reference
-
-* [Composer Installation](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
-* [CodeIgniter](https://github.com/bcit-ci/CodeIgniter)
-* [Translations for CodeIgniter System](https://github.com/bcit-ci/codeigniter3-translations)
-
-## Related Projects for CodeIgniter 3.x
-
-* [Cli for CodeIgniter 3.0](https://github.com/kenjis/codeigniter-cli)
-* [ci-phpunit-test](https://github.com/kenjis/ci-phpunit-test)
-* [CodeIgniter Simple and Secure Twig](https://github.com/kenjis/codeigniter-ss-twig)
-* [CodeIgniter Doctrine](https://github.com/kenjis/codeigniter-doctrine)
-* [CodeIgniter Deployer](https://github.com/kenjis/codeigniter-deployer)
-* [CodeIgniter3 Filename Checker](https://github.com/kenjis/codeigniter3-filename-checker)
-* [CodeIgniter Widget (View Partial) Sample](https://github.com/kenjis/codeigniter-widgets)
+        $where = array('userid'=>$id);
+    	$this->db->select('*');
+        $this->db->from('emailData');
+        $this->db->where($where);
+        $query = $this->db->get();
+        //print_r($data);
+        return $result = $query->result();
+        }
+}

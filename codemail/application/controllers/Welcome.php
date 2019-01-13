@@ -50,7 +50,7 @@ $this->load->model('User_model');
   'smtp_host' => 'ssl://smtp.gmail.com',
   'smtp_port' => 465,
   'smtp_user' => 'deepankardey12@gmail.com', // change it to yours
-  'smtp_pass' => '9630994887', // change it to yours
+  'smtp_pass' => 'xxxxxxxxxx', // change it to yours
   'mailtype' => 'html',
   'charset' => 'iso-8859-1',
   'wordwrap' => TRUE
@@ -138,7 +138,7 @@ $this->load->model('User_model');
            <td class="view-message">'. $result->message .'</td>
            <td class="view-message inbox-small-cells"></td>
            <td class="view-message text-right">' . $result->time . '</td>
-           <td class="view-message text-right"> <input type="button" value="Delete" onclick="deletemsg('.$result->id.')"> |  <input type="button" value="View" onclick="opentab('.$result->id.')" </td>
+           <td class="view-message text-right"> <input type="button" value="View" onclick="opentab('.$result->id.')" </td>
             </tr>';  
       }
       echo json_encode($result_html);

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Agency - Start Bootstrap Theme</title>
+    <title>Send Mail</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url(BOOTSTRAP)?>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Send mail</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fas fa-bars"></i>
@@ -149,7 +149,7 @@
                           <li>
                               <a href="<?php echo base_url()?>Welcome/sendbox"><i class="fa fa-envelope-o"></i> Sent Mail</a>
                           </li>
-                          <li>
+                          <!-- <li>
                               <a href="#"><i class="fa fa-bookmark-o"></i> Important</a>
                           </li>
                           <li>
@@ -157,7 +157,7 @@
                           </li>
                           <li>
                               <a href="#"><i class=" fa fa-trash-o"></i> Trash</a>
-                          </li>
+                          </li> -->
                       </ul>
                       
                       

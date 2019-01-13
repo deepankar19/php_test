@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Agency - Start Bootstrap Theme</title>
+    <title>Send the email</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url(BOOTSTRAP)?>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -110,7 +110,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-4">
-            <span class="copyright">Copyright &copy; Your Website 2018</span>
+            <span class="copyright">Copyright &copy; Your Website 2019</span>
           </div>
           <div class="col-md-4">
             <ul class="list-inline social-buttons">

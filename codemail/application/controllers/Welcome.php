@@ -89,7 +89,7 @@ $this->load->model('User_model');
 
     foreach($fetchData as $result) {
         $result_html .= '
-    	<tr class="unread">
+    	<tr id="'.$result->id.'" class="edit_tr">
           <td class="inbox-small-cells">
            <input type="checkbox" class="mail-checkbox" id="'.$result->id.'">
             </td>
@@ -129,9 +129,9 @@ $this->load->model('User_model');
 
     foreach($fetchData as $result) {
         $result_html .= '
-    	<tr class="unread">
+    	<tr id="'.$result->id.'" class="edit_tr">
           <td class="inbox-small-cells">
-           <input type="checkbox" class="mail-checkbox" id="'.$result->id.'">
+           <input type="checkbox" class="mail-checkbox" >
             </td>
            <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
            <td class="view-message dont-show">'. $result->subject .'</td>
@@ -143,5 +143,19 @@ $this->load->model('User_model');
       }
       echo json_encode($result_html);
 
+  }
+
+  public function mainbox()
+  {
+  	echo 'you r here';
+  }
+
+  public function inboxmail()
+  {
+  	$data = $this->input->post();
+  	$data1= array('userId' =>5,'sendername'=>$data['sendername'],'sendermail'=>$data['toemail'],'fromMail'=>$data['fromemail'],'subject'=>$data['subject'],'message'=>$data['message'],'action'=>'0');
+        $this->User_model->form_insert_mail($data1);
+        $this->demo();
+     
   }
 }

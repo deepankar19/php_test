@@ -517,7 +517,10 @@
         else
           return false;
         } 
-    
+    $('table').on('click', 'tr', function() {
+      var url = "<?php echo base_url();?>";
+      window.location = url+"Welcome/mainbox";
+});
    
 </script>
 

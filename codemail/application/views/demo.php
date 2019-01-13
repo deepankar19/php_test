@@ -30,7 +30,7 @@
 
   </head>
 
-  <body id="page-top" onload="getArr();">
+  <body id="page-top" >
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -517,7 +517,15 @@
         else
           return false;
         } 
-    
+    $(document).ready(function()
+{
+$(".edit_tr").click(function()
+{
+  alert('hii');
+var ID=$(this).attr('id');
+alert(ID);
+});
+});
    
 </script>
 
